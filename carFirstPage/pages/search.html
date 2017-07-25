@@ -1,0 +1,1005 @@
+<head>
+	<title>Car selection</title>
+</head>
+
+<template name="main">
+	<!-- this template is the layout of the whole application so the header and footer can be defined here and they will appear on every page -->
+	<!-- the {{> yield}} is a word that will be replaced by the content of every page/route while the lines before/after it will stay -->
+	{{> navigation}} <!-- we can put the navigation to be part of the template -->
+	<div class="">
+		{{> yield}}
+	</div>
+
+	<div class="footer footerBottom col-md-12 col-lg-12">
+		<div class="container">
+			<div class="col-md-12 col-xs-12">
+				<div class="copyright">Copyright &copy; Liljana Dimovska, 2017.</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="navigation">
+	<!-- if we want a menu or navigation we can put it here -->
+	<!-- top-nav -->
+	<div id="navbar">    
+    	<nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {{> navigationBrand}}
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    {{> navigationItems}}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+	</div>
+
+	<!-- //top-nav -->
+</template>
+
+<template name="navigationBrand">
+	<a class="navbar-brand menuElements" href="{{pathFor 'home'}}">Home</a>
+</template>
+
+<template name="navigationItems">
+   <!--  <li class="dropdown {{ activeIfTemplateIs 'filterSearch'}}">
+        <a href="{{pathFor 'filterSearch'}}" class="dropdown-toggle" >Filter Search </a>
+    </li> -->
+
+    {{#if currentUser}}
+	    <li class="dropdown {{ activeIfTemplateIs 'addCar'}}">
+	        <a href="{{pathFor 'addCar'}}" class="dropdown-toggle menuElements" >Add car </a>
+	    </li>
+		
+		<div class="profileLink {{ activeIfTemplateIs 'userProfile'}} menuElements">
+			<a href="{{pathFor 'userProfile'}} ">My Profile</a>
+		</div>
+	    <div class="changePass {{ activeIfTemplateIs 'changePassword'}} menuElements">
+	   		<a href="{{pathFor 'changePassword'}}">Change password</a>
+		</div>
+	    <div class="menuElements">
+	    	<div class="login"><a href="#" class="logout">Logout</a></div>
+	    </div>
+	{{else}}
+		<li class="dropdown {{ activeIfTemplateIs 'register'}} menuElements">
+        	<a href="{{pathFor 'register'}}" class="dropdown-toggle" >Register</a> 
+    	</li>
+    {{/if}}
+</template>
+
+<template name="home">
+
+	<a id="panela"></a>
+	<!-- banner -->
+	<div id="home" class="w3ls-banner">
+		<!-- header -->
+		<div class="header">
+			<div class="container">
+				<div class="logo">
+					<!-- with this even if the route path or template is modified, the name will remain the same -->
+					<h1><a href="{{pathFor route='home'}}">Car Selection</a></h1> 
+				</div>  
+			</div>
+		</div>
+		<!-- //header -->
+		<!-- top-nav -->
+
+		<!-- //top-nav -->
+		<div>
+			<!-- <a href="#0" class="cd-top">Top</a> -->
+		</div>
+	</div>
+	<!-- //banner -->
+	<div class="serach-w3agile" id="serach-w3agile">
+		<div class="container"> 
+			<div class="place-grids">
+				<form action="#" method="post">
+					<div class="col-md-8 col-xs-8 place-grid">
+						<h5>Car purpose</h5>
+						<div class="easySearch"> {{> EasySearch.Input index=carsIndex  attributes=att}} </div>
+					</div>
+					<!--<div class="col-md-2 col-xs-4 place-grid">
+						<h5>Price From</h5>
+						<select class="sel" > 
+							<option value="">Any</option>
+							<option value="">$50,000</option>
+							<option value="">$75,000</option>
+							<option value="">$100,000</option>
+							<option value="">$150,000</option>
+							<option value="">$500,000</option>
+						</select>
+					</div>
+					<div class="col-md-2 col-xs-4 place-grid">
+						<h5>Price To</h5>
+						<select class="sel" > 
+							<option value="">Any</option>
+							<option value="">$50,000</option>
+							<option value="">$75,000</option>
+							<option value="">$100,000</option>
+							<option value="">$150,000</option>
+							<option value="">$1,000,000</option>
+						</select>
+					</div> -->
+					<!-- <div class="col-md-4 col-xs-4 place-grid">
+						<h5>Technology</h5>
+						<select class="sel" > 
+							<option value="">Any</option>
+							<option value="">electric</option>
+							<option value="">gas</option>
+							<option value="">hybrid</option>
+						</select>
+					</div> -->
+					<!-- <div class="col-md-2 col-xs-4 place-grid">
+						<h5>Driver age</h5>
+						<select class="sel" >
+							<option value="">18 - 20</option>
+							<option value="">21 - 24</option>
+							<option value="">25</option>
+							<option value="">26 and older</option>
+						</select>
+					</div> --> 
+					<div class="col-md-4 col-xs-4 place-grid"> 
+						<a href="#serach-w3agile"><input type="submit" value="Search" id="search"> </a>
+					</div>
+					<div class="clearfix"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="main">
+		<div class="men " id="men">
+	    	<div class="container">
+	    		<div class="col-md-12 model-mar">
+				    <div class="mens-toolbar">
+	                 	<!-- <div class="sort">
+	               	   		<div class="sort-by">
+			            		<label>Sort By</label>
+					            <select>
+					                <option value="">Position</option>
+					                <option value="">Name</option>
+					                <option value="">Price</option>
+					            </select>
+					            <a href=""><img src="../arrow2.gif" alt="" class="v-middle"></a>
+	                   		</div>
+	    		     	</div> -->
+	    		     	<!-- <div class="pages">   
+			        	 	<div class="limiter visible-desktop">
+			               		<label>Show</label>
+				                <select>
+				                    <option value="" selected="selected">9</option>
+				                    <option value="">15</option>
+				                    <option value="">30</option>
+				                </select> per page        
+			                </div>
+			       	    </div>
+		    	        <ul class="women_pagenation dc_paginationA dc_paginationA06">
+					    	<li><a href="#" class="previous">Page : </a></li>
+					    	<li class="active"><a href="#">1</a></li>
+					    	<li><a href="#">2</a></li>
+				  	    </ul>		 -->
+			        </div>
+	    			<div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid">
+			       	    <ul id="panela">
+			       	    	{{#EasySearch.IfInputEmpty index=carsIndex}}
+			       	    		<div> <span class="fa fa-search" aria-hidden="true"> </span> Please search in the textbox above. </div>
+			       	    	{{else}}
+				       	    	{{#if carsIndex}}
+
+					       	    	{{#EasySearch.Each index=carsIndex}}
+					       	    		<li class="">
+					       	    			<a class="cbp-vm-image" href="/car/{{_id}}">
+											<div class="view view-first">
+									   		 	<div class="inner_content clearfix">
+													<div class="product_image">
+														<div class="mask1"><img src="../m4.jpg" alt="image" class="img-responsive zoom-img"></div>
+														<div class="mask">
+								                       		<div class="info">Quick View</div>
+										                </div>
+										                <div class="product_container">
+															<h4>{{brand}}</h4>
+														    <p class="profileCarDescription">{{description}}</p>
+														    <div class="price">$ {{price}}</div>
+														</div>		
+												    </div>
+							                    </div>
+						                    </div>
+						                    </a>
+					       	    		</li>
+					       	    	{{/EasySearch.Each}}
+					       	    	
+					       	    	{{#EasySearch.IfNoResults index=carsIndex}}
+			       	    				<div> No results found <span class="fa fa-frown-o" aria-hidden="true"></span></div>
+			       	    			{{/EasySearch.IfNoResults}}
+					       	    {{/if}}
+					       	{{/EasySearch.IfInputEmpty}}
+
+			       	    </ul>
+					</div>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
+	
+</template>
+
+<template name="addCarForm">
+	<h2 class="pro-title-noSize">Add car</h2>
+	<form class="addCar">
+		<div class="container"> 
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Brand</h5>
+				<input  class="fill" type="text" name="carBrand">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Model</h5>
+				<input class="fill" type="text" name="carModel">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Year</h5>
+				<input class="fill" type="number" size="4" name="carYear" value="2017">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Version</h5>
+				<input class="fill" type="text" name="carVersion">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Category</h5>
+				<input class="fill" type="text" name="carCategory">
+			</div> 
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Registration</h5>
+				<input class="fill" type="text" name="carRegistration">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Fuel</h5>
+				<input class="fill" type="number" min="0" value="9" name="carFuel">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Km</h5>
+				<input class="fill" type="number" min="0" size="6" name="carKm" value="0">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Technology</h5>
+				<select class="fill" required="" name="carTechnology">
+					<option value="">Please select</option>
+					<option value="">electric</option>
+					<option value="">gas</option>
+					<option value="">hybrid</option>
+				</select>
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Transmission</h5>
+				<select class="fill" required="" name="carTransmission">
+					<option value="">Please select</option>
+					<option value="">manual</option>
+					<option value="">automatic</option>
+				</select>
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Consumption</h5>
+				<input class="fill" type="number" min="0" value="0" name="carConsumption">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>0-60 mph</h5>
+				<input class="fill" type="number" min="0" value="0" step="0.1" name="carMPH">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Price</h5>
+				<input class="fill" type="number" min="0" value="10000" step="50" inputmode="numeric" name="carPrice">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Engine</h5>
+				<input class="fill" type="number" min="0" name="carEngine">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Top Speed</h5>
+				<input class="fill" type="number" min="0" value="60" name="carTopSpeed">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Warranty</h5>
+				<input class="fill" type="number" size="4" name="carWarranty">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Power</h5>
+				<input class="fill" type="text" name="carPower">
+			</div>
+			<div class="col-md-2 col-xs-4 place-grid">
+				<h5>Color</h5>
+				<input class="fill" type="text" name="carColor">
+			</div>
+			<div class="col-md-12 col-xs-12 place-grid">
+				<h5>Additional options</h5>
+				<textarea type="textarea" name="carAdditionalOptions" class="carTextarea fill" placeholder="Additional car options" maxlength="140" rows="7"></textarea>
+			</div>
+			<div class="col-md-12 col-xs-12 place-grid">
+				<h5>Description</h5>
+				<textarea type="textarea" name="carDescription" class="carTextarea fillDescr" placeholder="Car description" maxlength="800" rows="7"></textarea>
+			</div>
+			<!-- <form action="/action_page.php">
+				<input type="file" name="carPic" accept="image/gif, image/jpeg, image/png">
+				<input type="submit">
+			</form> -->
+			<div class="col-md-2 col-xs-4 place-grid"> 
+				<input type="submit" value="Submit"> 
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</template>
+
+<template name="addCar">
+	{{> addCarForm}}
+</template>
+
+<template name="filterSearch">
+	<div class="men">
+    	<div class="container">
+    		<div class="col-md-4 sidebar_men">
+    	  		<h3>Brands</h3>
+    			<ul class="product-categories color">
+    				<li class="cat-item cat-item-42"><input type="radio" name="brand" id="brand"><a href="#" name="brandFilter"> All brands</a></li>
+    				{{#each car}}
+    					<li class="cat-item cat-item-42"><input type="radio" name="{{brand}}" id="brand"><a href="#" name="brandFilter"> {{brand}}</a></li>
+    				{{/each}}
+		 		</ul>
+		 		<form>
+		 			{{#each car}}
+		 			<input type="radio" name="brand">{{brand}}<br>
+		 			{{/each}}
+		 		</form>
+		  		<h3>Colors</h3>
+		    	<ul class="product-categories color">
+		    		{{#each car}}
+		    			<li class="cat-item cat-item-42"><input type="checkbox" name="{{color}}" id="color"><a href="#"> {{color}}</a></li>
+		    		{{/each}}
+				</ul>
+		  		<h3>Transmission</h3>
+		    	<ul class="product-categories color">
+		    			<li class="cat-item cat-item-42"><input type="checkbox" name="manual" id="transmission"><a href="#"> Manual</a></li>
+		    			<li class="cat-item cat-item-42"><input type="checkbox" name="automatic" id="transmission"><a href="#"> Automatic</a></li>
+				</ul>
+				<h3>Technology</h3>
+		    	<ul class="product-categories color">
+		    			<li class="cat-item cat-item-42"><input type="checkbox" name="electric" id="technology"><a href="#"> Electric</a></li>
+		    			<li class="cat-item cat-item-42"><input type="checkbox" name="gas" id="technology"><a href="#"> Gas</a></li>
+		    			<li class="cat-item cat-item-42"><input type="checkbox" name="hybrid" id="technology"><a href="#"> Hybrid</a></li>
+				</ul>
+			</div>
+    		<div class="col-md-8 model-mar">
+			    <!-- <div class="mens-toolbar">
+                 	<div class="sort">
+               	   		<div class="sort-by">
+		            		<label>Sort By</label>
+				            <select>
+				                <option value="">Position</option>
+				                <option value="">Name</option>
+				                <option value="">Price</option>
+				            </select>
+				            <a href=""><img src="../arrow2.gif" alt="" class="v-middle"></a>
+                   		</div>
+    		     	</div>
+	    	        <ul class="women_pagenation dc_paginationA dc_paginationA06">
+				     <li><a href="#" class="previous">Page : </a></li>
+				     <li class="active"><a href="#">1</a></li>
+				     <li><a href="#">2</a></li>
+			  	    </ul>		
+		        </div> -->
+    			<div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid">
+					<div class="pages col-lg-12">   
+		        	 	<div class="limiter visible-desktop">
+		               		<label>Show</label>
+			                <select>
+			                    <option value="" selected="selected">9</option>
+			                    <option value="">15</option>
+			                    <option value="">30</option>
+			                </select> per page        
+		                </div>
+		       	    </div>
+
+		       	    <ul>
+		       	    	{{#each carBrand}}
+		       	    		<li class="">
+		       	    			<a class="cbp-vm-image" href="/car/{{_id}}">
+								<div class="view view-first">
+						   		 	<div class="inner_content clearfix">
+										<div class="product_image">
+											<div class="mask1"><img src="../m4.jpg" alt="image" class="img-responsive zoom-img"></div>
+											<div class="mask">
+					                       		<div class="info">Quick View</div>
+							                </div>
+							                <div class="product_container">
+												<h4>{{brand}}</h4>
+											    <p class="profileCarDescription">{{description}}</p>
+											    <div class="price">$ {{price}}</div>
+											</div>		
+									    </div>
+				                    </div>
+			                    </div>
+			                    </a>
+		       	    		</li>
+		       	    	{{/each}}
+		       	    </ul>
+				</div>
+    		</div>
+    	</div>
+   </div>
+</template>
+
+<template name="carList">
+	<!-- {{#if currentUser}} -->
+		<!-- {{> addCarForm}} -->
+		<!-- {{> addCarContact}} -->
+	<!-- {{/if}} -->
+</template>
+
+<template name="register">
+	<!-- {{> atForm state='signUp'}} -->
+	{{#if currentUser}}
+		{{> addCarForm}}
+	{{else}}
+		<div class="col-md-12 col-lg-12 registerForm">
+			<h2 class="pro-title-noSize">Register or login</h2>
+			<div class="col-md-6 col-lg-6">{{> registerNew}}</div>
+			<div class="col-md-6 col-lg-6">{{> loginNew}}</div>
+		</div>
+	{{/if}}
+	
+</template>
+
+<template name="registerNew">
+	<form>
+		<div class="container">
+			<p class="">Register</p>
+			<p>By creating an account, you can create an add for the car you wish to sell.</p>
+			<div class="row col-md-6">
+
+				<div class="main-login main-center">
+					<form class="form-horizontal" method="post" action="#">
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Username</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="registerUsername" id="registerName"  placeholder="Enter your Username" required/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Your Email</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="email" class="form-control" name="registerEmail" id="email"  placeholder="Enter your Email" required />
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="registerPass" id="password"  placeholder="Enter your Password" required/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Confirm Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="registerConfirmPass" id="password"  placeholder="Confirm your Password" required/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group place-grid login-button"> 
+							<input type="submit" name="registerSubmit" value="Register"> 
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</form>
+</template>
+
+<template name="loginNew">
+	
+	<form>
+		<div class="container">
+			<p class="">Login</p>
+			<p>Enter your email and password to login.</p>
+			<div class="row col-md-6">
+
+				<div class="main-login main-center">
+					<form class="form-horizontal" method="post" action="#">
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Username</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="loginUsername" id="registerName"  placeholder="Enter your Username"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="loginPass" id="password"  placeholder="Enter your Password"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group place-grid login-button"> 
+							<input type="submit" name="loginSubmit" value="Login"> 
+						</div>
+
+						<!--  ne mu dava na gornovo kopce da raboti !!!!!!!!!!!
+						<div class="form-group">
+							<div><a href="{{pathFor 'forgotPass'}}">Forgot password</a></div>
+						</div> -->
+					</form>
+				</div>
+			</div>
+		</div>
+	</form>
+</template>
+
+<template name="changePassword">
+	<div class="col-lg-12 registerForm">
+		<h2 class="pro-title-noSize">Change</h2>
+		<div class="col-lg-6">{{> newPass}}</div>
+	</div>
+</template>
+
+<template name="forgotPass">
+	<div class="col-lg-12 registerForm">
+		<h2>Forgot password</h2>
+		<form class="col-lg-6">
+			<div class="container">
+				<p>Did you forget your password?</p>
+				<div class="row col-md-6">
+					<div class="main-login main-center">
+						<form class="form-horizontal" method="post" action="#">
+							
+							<div class="form-group">
+								<label for="email" class="cols-sm-2 control-label">Your Email</label>
+								<div class="cols-sm-10">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+										<input type="text" class="form-control" name="forgotPassEmail" placeholder="Enter your Email"/>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group place-grid login-button"> 
+								<input type="submit" name="forgotPassSubmit" value="Email New Password"> 
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</template>
+
+<template name="newPass">
+	<form>
+		<div class="container">
+			<p>Do you want to change your password?</p>
+			<div class="row col-md-6">
+
+				<div class="main-login main-center">
+					<form class="form-horizontal" method="post" action="#">
+						
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="newPassPass" id="password"  placeholder="Enter your Password"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">New Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="newPassNewPass" id="password"  placeholder="Enter your Password"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group place-grid login-button"> 
+							<input type="submit" name="newPassSubmit" value="Change Password"> 
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</form>
+</template>
+
+<template name="carInfo">
+	<div class="col-lg-12 container registerForm">
+		<h2 class="pro-title-noSize">Car Details: {{brand}}</h2>
+
+		<div class="col-md-12">
+			<div class="tz-gallery col-md-8">
+		        <div class="row ">
+
+		            <div class="col-sm-12 col-md-8">
+		                <a class="lightbox" href="#">
+		                    <img src="http://placehold.it/800x500" alt="">
+		                </a>
+		            </div>
+		            <div class="col-sm-6 col-md-4">
+		                <a class="lightbox" href="#">
+		                    <img src="http://placehold.it/800x500" alt="">
+		                </a>
+		            </div>
+		            <div class="col-sm-6 col-md-4">
+		                <a class="lightbox" href="#">
+		                    <img src="http://placehold.it/800x500" alt="">
+		                </a>
+		            </div>
+		            <div class="col-sm-12 col-md-4">
+		                <a class="lightbox" href="#">
+		                    <img src="http://placehold.it/800x500" alt="">
+		                </a>
+		            </div>
+		            <div class="col-sm-6 col-md-4">
+		                <a class="lightbox" href="#">
+		                    <img src="http://placehold.it/800x500" alt="">
+		                </a>
+		            </div> 
+		            <div class="col-sm-6 col-md-4">
+		                <a class="lightbox" href="#">
+		                    <img src="http://placehold.it/800x500" alt="">
+		                </a>
+		            </div>
+
+		        </div>
+		        <br>
+		        <h4>Price: $ {{price}}</h4>
+		    </div>
+
+		    <!-- {{> owner}} -->
+
+		    <div class="profile">
+		        <div class="row">
+				    <div class="">
+				        <div class="col-xs-12 col-sm-6 col-md-3">
+				            <div class="well well-sm">
+				    			<h4 class="pro-title">Owner information</h4>
+				                {{#if currentUser}}
+				                <div class="row">
+				                    <div class="col-sm-12 col-md-12">
+				                        <img src="http://placehold.it/350x350" alt="" class="img-rounded img-responsive img-tumbnail" />
+				                    </div>
+				                    <div class="col-sm-12 col-md-12">
+				                        <h4>{{firstName}} {{lastName}}</h4>
+				                        <small><cite title="address"><i class="glyphicon glyphicon-map-marker"></i> {{address}}</cite></small>
+				                        <p>
+				                            <i class="glyphicon glyphicon-envelope"></i>{{email}}
+				                            <br />
+				                            <i class="glyphicon glyphicon-phone"></i>{{phone}}</p>
+				                        <!-- Split button -->
+				                        <!-- <div class="btn-group">
+				                            <button type="button" class="btn btn-primary">Contact</button>
+				                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				                                <span class="caret"></span><span class="sr-only">Contact</span>
+				                            </button>
+				                            <ul class="dropdown-menu" role="menu">
+				                                <li><a href="#">Send message</a></li>
+				                                <li><a href="#">Book viewing</a></li>
+				                            </ul>
+				                        </div> -->
+				                    </div>
+				                </div>
+				                {{else}}
+				                <div class="row">
+				                	<div class="col-sm-12 col-md-12">
+				                		<p>You must be logged in for this information.</p>
+				                	</div>
+				                </div>
+				                {{/if}}
+				            </div>
+				        </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="row">
+				<div class="container">
+					<div class="tab-content ">
+						<div class="tab-pane fade active in">
+							<div class="container">
+								<div class="row">
+									<h4 class="pro-title col-lg-12">Vehicle information</h4> 
+									<!-- mozda da napraam da ima linija megu naslovot i tekstot, ko na google, border-top: solid 1px #ebebeb -->
+									<div class="container description">
+										{{description}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content ">
+						<div class="tab-pane fade active in">
+							<div class="container">
+								<div class="row">
+									<h4 class="pro-title">Vehicle details</h4>
+									<!-- <div class="row"> -->
+										<table class="col-lg-6 col-md-6 panel panel-table" >
+											<thead>
+												<tr>
+													<th>What?</th>
+													<th>Description</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th class="panel-heading">Model </th>
+													<td class="panel-body">{{model}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Year </th>
+													<td class="panel-body">{{year}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Version </th>
+													<td class="panel-body">{{version}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Category </th>
+													<td class="panel-body">{{category}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Registration </th>
+													<td class="panel-body">{{registration}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Fuel </th>
+													<td class="panel-body">{{fuel}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Km </th>
+													<td class="panel-body">{{km}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Transmission </th>
+													<td class="panel-body">{{transmission}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Technology </th>
+													<td class="panel-body">{{technology}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Consumption </th>
+													<td class="panel-body">{{consumption}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">0-60 mph </th>
+													<td class="panel-body">{{mph}} sec</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Engine </th>
+													<td class="panel-body">{{engine}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Top Speed </th>
+													<td class="panel-body">{{topSpeed}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Warranty </th>
+													<td class="panel-body">{{warranty}}</td>
+												</tr>
+												<tr>
+													<th class="panel-heading">Power </th>
+													<td class="panel-body">{{power}}</td>
+												</tr>
+											</tbody>
+										</table>
+									<!-- </div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <h3 class="col-lg-12 col-md-12 subtitle">Vehicle reviews</h3>
+					<div class="">
+						{{> reviews}}
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+    
+</template>
+
+<template name="reviews">
+	<!--<ul>
+	 	<li>Price :<a href="#"><i class="glyphicon glyphicon-star"></i></a></li>
+	 	<li>Value :<a href="#"><i class="glyphicon glyphicon-star-empty"></i></a></li>
+	 	<li>Quality :<a href="#"><i class="glyphicon glyphicon-star"></i></a></li>
+	</ul> -->
+	<div class="your-review">
+	  	<form method="post">
+	    	<table class="col-lg-12 col-md-12 panel ">
+				<tbody>
+					<tr>
+						<th class="panel-heading">Nickname </th>
+						<td class="panel-body"><input class="reviewInfo" type="text" name="reviewUser"></td>
+					</tr>
+					<tr>
+						<th class="panel-heading">How do you rate this car? </th>
+						<td class="panel-body"><input class="reviewInfo" type="number" min="0" max="10" value="0" name="reviewRating"></td>
+					</tr>
+					<tr>
+						<th class="panel-heading place">Review </th>
+						<td class="panel-body"><textarea class="reviewInfo" maxlength="140" rows="4" cols="80" name="reviewDescription"></textarea></td>
+					</tr>
+					<tr>
+						<th class="panel-heading place"></th>
+						<td class="place-grid panel-button"><input type="submit" value="Submit review"></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</template>
+
+<template name="userProfile">
+	<section>
+
+		<div class="container" style="margin-top: 30px;">
+			<div class="profile-head">
+				<div class="col-md- col-sm-4 col-xs-12">
+					<img src="http://seniorsfs.global2.vic.edu.au/files/2013/05/realmario-12fstdk-300x300.jpg" class="img-responsive" />
+				</div><!--col-md-4 col-sm-4 col-xs-12 close-->
+
+				<div class="col-md-5 col-sm-5 col-xs-12">
+					<h5>{{firstName}} {{lastName}}</h5>
+					<p>user: {{username}}</p>
+					<ul>
+						<li><span class="glyphicon glyphicon-map-marker"></span>{{country}}</li>
+						<li><span class="glyphicon glyphicon-home"></span>{{address}} </li>
+						<li><span class="glyphicon glyphicon-phone"></span> <a href="#" title="call">{{phone}} </a></li>
+						<li><span class="glyphicon glyphicon-envelope"></span><a href="#" title="mail">{{email}} </a></li>
+					</ul>
+				</div><!--col-md-8 col-sm-8 col-xs-12 close-->
+			</div><!--profile-head close-->
+		</div><!--container close-->
+
+		<div id="sticky" class="container">
+		    <div class="tab-content">
+		    	<div class="tab-pane fade active in" id="profile">
+		    		<div class="container">
+						<!-- If we want some info about the user
+						<div class="col-sm-11" style="float:left;">
+							<div class="hve-pro">
+								<p>Hello I’m Jenifer Smith, a leading expert in interactive and creative design specializing in the mobile medium. 
+								My graduation from Massey University with a Bachelor of Design majoring in visual communication.</p>
+							</div>
+						</div> -->
+						<div class="row">
+							<div class="col-md-12">
+								<h4 class="pro-title">Personal Information</h4>
+							</div>
+
+							<!-- <ul>
+								{{#each car}}
+									<li class="showCars {{selectedCar}}">{{carBrand}}</li>
+									<li>
+										<input type="text" value="{{carBrand}}" name="carResult">
+										[<a href="#" class="deleteCar">Delete</a>]
+									</li>
+								{{/each}}
+							</ul> -->
+
+							<div class="col-md-6">
+								<div class="table-responsive responsiv-table">
+								  	<table class="table bio-table">
+								      	<tbody>
+										    <tr>      
+										    	<td>Firstname</td>
+										        <td>: <input class="profileInfo" type="text" name="userFirstName" value="{{firstName}}"></td> 
+										    </tr>
+										    <tr>    
+										        <td>Lastname</td>
+										        <td>: <input class="profileInfo" type="text" name="userLastName" value="{{lastName}}"></td>       
+										    </tr>
+										    <tr>    
+										        <td>Contury</td>
+										        <td>: <input class="profileInfo" type="text" name="userCountry" value="{{country}}"></td>       
+										    </tr>
+								    	</tbody>
+								  	</table>
+								</div><!--table-responsive close-->
+							</div><!--col-md-6 close-->
+
+							<div class="col-md-6">
+								<div class="table-responsive responsiv-table">
+									<table class="table bio-table">
+									    <tbody>
+										    <tr>  
+										        <td>Email</td>
+										        <td>: <input class="profileInfo" type="text" name="userEmail" value="{{email}}"></td> 
+										    </tr>
+										    <tr>    
+										        <td>Phone</td>
+										        <td>: <input class="profileInfo" type="text" name="userPhone" value="{{phone}}"></td>       
+										    </tr>
+										    <tr>    
+										        <td>Address</td>
+										        <td>: <input class="profileInfo" type="text" name="userAddress" value="{{address}}"></td>       
+										    </tr>
+									    </tbody>
+									</table>
+								</div><!--table-responsive close-->
+							</div><!--col-md-6 close-->
+						</div><!--row close-->
+					</div><!--container close-->
+				</div><!--tab-pane close-->
+			</div><!--tab-content close-->
+			
+			<div class="tab-content">
+				<div class="tab-pane active in" id="profile">
+					<div class="container description">
+						<h4 class="pro-title">Car Adverts</h4>
+						<ul class="col-lg-12 col-md-12">
+							{{#each userCars}}
+							<li style="list-style-type: none;"> <!-- display: inline-block; -->
+								<a class="cbp-vm-image " href="/car/{{_id}}">
+									<div class="col-lg-2 col-md-2 view view-first">
+										<div class="inner_content clearfix">
+											<div class="product_image">
+												<div class="mask1"><img src="../m4.jpg" alt="image" class="img-responsive zoom-img"></div>
+												<div class="product_container">
+													<h4>{{brand}}</h4>
+													<p class="profileCarDescription">{{description}}</p>
+													<div class="price">$ {{price}}</div>
+												</div>		
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							{{/each}}
+							<!-- <ul>
+							{{#each car}}
+								<li class="showCars {{selectedCar}}">{{carBrand}}</li>
+								<li>
+									<input type="text" value="{{carBrand}}" name="carResult">
+									[<a href="#" class="deleteCar">Delete</a>]
+								</li>
+							{{/each}}
+							</ul> -->
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div><!--container close-->
+	</section><!--section close-->
+</template>
